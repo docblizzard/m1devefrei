@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --ext ts,json --exec 'node --loader ts-node/esm src/index.ts'"
+    "compile": "tsc",
+    "dev": "node --loader=ts-node/esm --watch src/index.ts",
+    "start": "npm run compile && node ./dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +15,8 @@
   "type": "module",
   "dependencies": {
     "@apollo/server": "^4.10.0",
-    "graphql": "^16.8.1"
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6"
   },
   "devDependencies": {
     "@types/node": "^20.11.19",
