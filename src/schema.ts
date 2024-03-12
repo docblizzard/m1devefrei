@@ -4,7 +4,7 @@ export const typeDefs = gql`
   type Doctor {
     id: ID!
     name: String
-    speciality: SPECIALITY
+    speciality: Speciality
     addresses: [Address]
   }
 
@@ -17,7 +17,7 @@ export const typeDefs = gql`
     doctor(id: ID!): Doctor
   }
  
-  enum SPECIALITY {
+  enum Speciality {
     PSYCHOLOGIST
     OPHTALMOLOGIST
   }

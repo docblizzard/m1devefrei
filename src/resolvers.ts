@@ -22,7 +22,9 @@ export const resolvers = {
 
   Doctor: {
     addresses: (parent, args, context, info) => {
-      return []
+      return [{
+        zipCode: `${parent.id}000`
+      }]
     }
   }
  };
