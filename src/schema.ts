@@ -26,4 +26,16 @@ export const typeDefs = gql`
     PSYCHOLOGIST
     OPHTALMOLOGIST
   }
+  type Track {
+    id: ID!
+    title: String!
+    author: Author!
+    thumbnail: String
+  }
+
+  type Author {
+    id: ID!
+    name: String!
+    photo: String
+  }
 `;

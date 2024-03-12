@@ -60,9 +60,9 @@ export const resolvers = {
       const numb2 = args.number2
       return numb1/numb2
     },
-    closestColor: (parent, args, context, info) => {
-      return getClosestColor(args.color,)
-    }
+    // closestColor: (parent, args, context, info) => {
+    //   return getClosestColor(args.color,)
+    // }
   },
 
   Doctor: {
@@ -70,6 +70,11 @@ export const resolvers = {
       return [{
         zipCode: `${parent.id}000`
       }]
+    }
+  },
+  Track: {
+    author: ({authorId}, args, context, info) => {
+      return context.dataSource.TrackAPI.getAuthorBy(authorId)
     }
   }
 };
