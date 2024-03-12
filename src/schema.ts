@@ -11,15 +11,27 @@ export const typeDefs = gql`
   type Address {
     zipCode: String
   }
+
+  type Track {
+    id: ID!
+    title: String!
+    author: Author!
+    thumbnail: String
+  }
+
+  type Author {
+    id: ID!
+    name: String!
+    photo: String
+  }
  
   type Query {
-    doctors(specialities: [Speciality!]): [Doctor!]
+    doctors(specialities: [Speciality!]): [Doctor]
     doctor(id: ID!): Doctor
-    add(number1: Int, number2: Int): Int
-    substract(number1: Int, number2: Int): Int
-    multiply(number1: Int, number2: Int): Int
-    divide(number1: Int, number2: Int): Int
+    divide(number1: Int!, number2: Int!): Float!
+    multiply(number1: Int!, number2: Int!): Float!
     closestColor(color: String!): String!
+    getTracks: [Track!]!
   }
  
   enum Speciality {

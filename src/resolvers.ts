@@ -1,3 +1,7 @@
+import { GraphQLError } from "graphql";
+import { getClosestColor } from "./colors.js";
+import { Resolvers, Speciality } from "./types.js";
+
 const FilmsData = [
   {
     id: '1',
@@ -17,54 +21,58 @@ const doctorsData = [
   {
     id: '1',
     name: 'Samia Mekame',
-    speciality: 'OPHTALMOLOGIST',
+    speciality: Speciality.Ophtalmologist,
   },
   {
     id: '2',
     name: 'Catherine Bedoy',
-    speciality: 'PSYCHOLOGIST',
+    speciality: Speciality.Psychologist,
+  },
+  {
+    id: '3',
+    name: 'John Doe',
+    speciality: Speciality.Ophtalmologist,
   },
 ];
-export const resolvers = {
+export const resolvers: Resolvers = {
   Query: {
-    doctors: (parent, args, context, info) =>
-    {
-      return doctorsData
+    doctors: (parent, args, context, info) => {
+      const {specialities} = args
+      return doctorsData.filter(doctor => specialities.includes(doctor.speciality))
     },
     doctor: (parent, args, context, info) => {
       const id = args.id
       console.log(id)
       return doctorsData.find(d => d.id === id)
     },
-    add: (parent, args, context, info) => {
-      const numb1 = args.number1
-      const numb2 = args.number2
-      return numb1+numb2
-    },
-    substract: (parent, args, context, info) => {
-      const numb1 = args.number1
-      const numb2 = args.number2
-      return numb1-numb2
+    divide: (parent, args, context, info) => {
+      const {number1, number2} = args
+      if (number2 === 0) {
+        throw new GraphQLError('cannot divide by 0')
+      }
+      return number1 / number2
     },
     multiply: (parent, args, context, info) => {
-      const numb1 = args.number1
-      const numb2 = args.number2
-      console.log(numb1*numb2)
-      return numb1*numb2
+      const {number1, number2} = args
+      return number1 * number2
     },
-    divide: (parent, args, context, info) => {
-      if (args.number2 == 0 ) {
-
+    closestColor: (parent, args, context, info) => {
+      const {color} = args
+      if (!(color.match(/^#[0-9a-fA-F]{6}/))) {
+        throw new GraphQLError('color pattern does not match')
       }
-      const numb1 = args.number1
-      const numb2 = args.number2
-      return numb1/numb2
+      return getClosestColor(color, ["#FF5733", "#33FF57", "#3357FF"])
     },
-    // closestColor: (parent, args, context, info) => {
-    //   return getClosestColor(args.color,)
-    // }
+    getTracks: (parent, args, context, info) => {
+      return context.dataSources.trackApi.getTracks()
+    }
   },
 
+  Track: {
+    author: ({authorId}, args, context, info) => {
+      return context.dataSources.trackApi.getAuthorBy(authorId)
+    }
+  },
   Doctor: {
     addresses: (parent, args, context, info) => {
       return [{

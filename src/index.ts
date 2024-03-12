@@ -12,9 +12,11 @@ const server = new ApolloServer({
 const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
   context: async () => {
-    const { cache } = server
+    const {cache} = server
     return {
-      dataSource: new TrackAPI({ cache })
+      dataSources: {
+        trackApi: new TrackAPI({cache})
+      }
     }
   }
 });
