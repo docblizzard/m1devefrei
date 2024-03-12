@@ -19,12 +19,6 @@ export const typeDefs = gql`
     thumbnail: String
   }
 
-  type Author {
-    id: ID!
-    name: String!
-    photo: String
-  }
- 
   type Query {
     doctors(specialities: [Speciality!]): [Doctor]
     doctor(id: ID!): Doctor
@@ -32,22 +26,31 @@ export const typeDefs = gql`
     multiply(number1: Int!, number2: Int!): Float!
     closestColor(color: String!): String!
     getTracks: [Track!]!
+    getFilms: [Film!]!
+    getPeople: [People!]!
   }
  
   enum Speciality {
     PSYCHOLOGIST
     OPHTALMOLOGIST
   }
-  type Track {
-    id: ID!
-    title: String!
-    author: Author!
-    thumbnail: String
-  }
 
   type Author {
     id: ID!
     name: String!
     photo: String
+  }
+  
+  type People {
+    id: ID!
+    name: String!
+    eyeColor: String!
+    films : [Film]
+  }
+
+  type Film {
+    id: ID!
+    title: String!
+    people: [People]
   }
 `;
