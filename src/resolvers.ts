@@ -1,25 +1,26 @@
 import { GraphQLError } from "graphql";
 import { getClosestColor } from "./colors.js";
+import { Resolvers, Speciality } from "./types.js";
 
  
 const doctorsData = [
   {
     id: '1',
     name: 'Samia Mekame',
-    speciality: 'OPHTALMOLOGIST',
+    speciality: Speciality.Ophtalmologist,
   },
   {
     id: '2',
     name: 'Catherine Bedoy',
-    speciality: 'PSYCHOLOGIST',
+    speciality: Speciality.Psychologist,
   },
   {
     id: '3',
     name: 'John Doe',
-    speciality: 'OPHTALMOLOGIST',
+    speciality: Speciality.Ophtalmologist,
   },
 ];
-export const resolvers = {
+export const resolvers: Resolvers = {
   Query: {
     doctors: (parent, args, context, info) => {
       const {specialities} = args
@@ -46,9 +47,17 @@ export const resolvers = {
         throw new GraphQLError('color pattern does not match')
       }
       return getClosestColor(color, ["#FF5733", "#33FF57", "#3357FF"])
+    },
+    getTracks: (parent, args, context, info) => {
+      return context.dataSources.trackApi.getTracks()
     }
   },
 
+  Track: {
+    author: ({authorId}, args, context, info) => {
+      return context.dataSources.trackApi.getAuthorBy(authorId)
+    }
+  },
   Doctor: {
     addresses: (parent, args, context, info) => {
       return [{
