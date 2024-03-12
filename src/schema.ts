@@ -13,8 +13,11 @@ export const typeDefs = gql`
   }
  
   type Query {
-    doctors: [Doctor]
+    doctors(specialities: [Speciality!]): [Doctor]
     doctor(id: ID!): Doctor
+    divide(number1: Int!, number2: Int!): Float!
+    multiply(number1: Int!, number2: Int!): Float!
+    closestColor(color: String!): String!
   }
  
   enum Speciality {
