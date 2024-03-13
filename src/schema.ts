@@ -44,13 +44,13 @@ export const typeDefs = gql`
   type People {
     id: ID!
     name: String!
-    eyeColor: String!
-    films : [Film]
+    eye_color: String
+    films : [Film!]
   }
 
   type Film {
     id: ID!
     title: String!
-    people: [People]
+    people: [People!]
   }
 `;

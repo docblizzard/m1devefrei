@@ -10,6 +10,8 @@ const config: CodegenConfig = {
         mappers: {
           Track: './models#TrackModel',
           Author: './models#AuthorModel',
+          People: './models#PeopleModel',
+          Film: './models#FilmModel'
         }
       },
     }

@@ -67,7 +67,10 @@ export const resolvers: Resolvers = {
       return context.dataSources.trackApi.getTracks()
     },
     getFilms: (parent, args, context, info) => {
-      return context.dataSources.ghibliAPI.getFilms()
+      return context.dataSources.ghibliApi.getFilms()
+    },
+    getPeople: (parent, args, context, info) => {
+      return context.dataSources.ghibliApi.getPeople()
     }
   },
   Track: {
@@ -81,5 +84,5 @@ export const resolvers: Resolvers = {
         zipCode: `${parent.id}000`
       }]
     }
-  }
+  },
 };

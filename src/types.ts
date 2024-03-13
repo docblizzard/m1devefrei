@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { TrackModel, AuthorModel } from './models';
+import { TrackModel, AuthorModel, PeopleModel, FilmModel } from './models';
 import { DataSourceContext } from './context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -38,12 +38,29 @@ export type Doctor = {
   speciality?: Maybe<Speciality>;
 };
 
+export type Film = {
+  __typename?: 'Film';
+  id: Scalars['ID']['output'];
+  people?: Maybe<Array<People>>;
+  title: Scalars['String']['output'];
+};
+
+export type People = {
+  __typename?: 'People';
+  eye_color?: Maybe<Scalars['String']['output']>;
+  films?: Maybe<Array<Film>>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
   closestColor: Scalars['String']['output'];
   divide: Scalars['Float']['output'];
   doctor?: Maybe<Doctor>;
   doctors?: Maybe<Array<Maybe<Doctor>>>;
+  getFilms: Array<Film>;
+  getPeople: Array<People>;
   getTracks: Array<Track>;
   multiply: Scalars['Float']['output'];
 };
@@ -163,9 +180,11 @@ export type ResolversTypes = {
   Author: ResolverTypeWrapper<AuthorModel>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Doctor: ResolverTypeWrapper<Doctor>;
+  Film: ResolverTypeWrapper<FilmModel>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  People: ResolverTypeWrapper<PeopleModel>;
   Query: ResolverTypeWrapper<{}>;
   Speciality: Speciality;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -178,9 +197,11 @@ export type ResolversParentTypes = {
   Author: AuthorModel;
   Boolean: Scalars['Boolean']['output'];
   Doctor: Doctor;
+  Film: FilmModel;
   Float: Scalars['Float']['output'];
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
+  People: PeopleModel;
   Query: {};
   String: Scalars['String']['output'];
   Track: TrackModel;
@@ -206,11 +227,28 @@ export type DoctorResolvers<ContextType = DataSourceContext, ParentType extends 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type FilmResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['Film'] = ResolversParentTypes['Film']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  people?: Resolver<Maybe<Array<ResolversTypes['People']>>, ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PeopleResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['People'] = ResolversParentTypes['People']> = {
+  eye_color?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  films?: Resolver<Maybe<Array<ResolversTypes['Film']>>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   closestColor?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryClosestColorArgs, 'color'>>;
   divide?: Resolver<ResolversTypes['Float'], ParentType, ContextType, RequireFields<QueryDivideArgs, 'number1' | 'number2'>>;
   doctor?: Resolver<Maybe<ResolversTypes['Doctor']>, ParentType, ContextType, RequireFields<QueryDoctorArgs, 'id'>>;
   doctors?: Resolver<Maybe<Array<Maybe<ResolversTypes['Doctor']>>>, ParentType, ContextType, Partial<QueryDoctorsArgs>>;
+  getFilms?: Resolver<Array<ResolversTypes['Film']>, ParentType, ContextType>;
+  getPeople?: Resolver<Array<ResolversTypes['People']>, ParentType, ContextType>;
   getTracks?: Resolver<Array<ResolversTypes['Track']>, ParentType, ContextType>;
   multiply?: Resolver<ResolversTypes['Float'], ParentType, ContextType, RequireFields<QueryMultiplyArgs, 'number1' | 'number2'>>;
 };
@@ -227,6 +265,8 @@ export type Resolvers<ContextType = DataSourceContext> = {
   Address?: AddressResolvers<ContextType>;
   Author?: AuthorResolvers<ContextType>;
   Doctor?: DoctorResolvers<ContextType>;
+  Film?: FilmResolvers<ContextType>;
+  People?: PeopleResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Track?: TrackResolvers<ContextType>;
 };

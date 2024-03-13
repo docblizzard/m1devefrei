@@ -1,14 +1,22 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
-import { AuthorModel, TrackModel } from "../models.js";
+import { FilmModel, PeopleModel } from "../models.js";
 
 export class GhibliAPI extends RESTDataSource {
   baseURL = "https://ghibliapi.dev/";
 
-  getFilms() {
-    return this.get<any>('films')
+  validateUrl(url: string): boolean {
+    const pattern = /^https:\/\/ghibliapi\.dev\/\w+\/[0-9a-f-]+$/;
+    return pattern.test(url);
   }
 
-  getPeople() {
-    return this.get<any>('people')
+  async getFilms() {
+    return this.get<FilmModel[]>('films')
+    
   }
+
+  async getPeople() {
+    const peoples = await this.get<PeopleModel[]>('people')
+    return peoples
+  }
+
 }

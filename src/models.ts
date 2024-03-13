@@ -13,3 +13,16 @@ export type AuthorModel = {
   name: string;
   photo: string;
 }
+
+export type PeopleModel = {
+  id: string;
+  name: string;
+  eye_color: string;
+  films: [FilmModel];
+}
+
+export type FilmModel = {
+  id: string;
+  title: string;
+  people: [PeopleModel]
+}
