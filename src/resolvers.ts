@@ -84,5 +84,5 @@ export const resolvers: Resolvers = {
         zipCode: `${parent.id}000`
       }]
     }
-  },
+  }
 };
